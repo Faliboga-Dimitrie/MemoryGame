@@ -1,0 +1,84 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Data\Images\GameImages\Animals\Animal1.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal2.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal3.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal4.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal5.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal6.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal7.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Animal8.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark1.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark2.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark3.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark4.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark5.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark6.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark7.jpg" />
+    <None Remove="Data\Images\GameImages\Landmarks\Landmark8.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle1.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle2.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle3.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle4.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle5.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle6.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle7.jpg" />
+    <None Remove="Data\Images\GameImages\Vehicles\Vehicle8.jpg" />
+    <None Remove="Data\Images\UserAvatarImages\Avatar1.jpg" />
+    <None Remove="Data\Images\UserAvatarImages\Avatar2.jpg" />
+    <None Remove="Data\Images\UserAvatarImages\Avatar3.jpg" />
+    <None Remove="Data\Images\UserAvatarImages\Avatar4.jpg" />
+    <None Remove="Data\Images\UserAvatarImages\Avatar5.jpg" />
+    <None Remove="Data\Images\UserAvatarImages\Avatar6.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="Data\UserData\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Data\Images\GameImages\Animals\Animal1.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal2.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal3.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal4.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal5.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal6.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal7.jpg" />
+    <Resource Include="Data\Images\GameImages\Animals\Animal8.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark1.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark2.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark3.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark4.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark5.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark6.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark7.jpg" />
+    <Resource Include="Data\Images\GameImages\Landmarks\Landmark8.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle1.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle2.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle3.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle4.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle5.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle6.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle7.jpg" />
+    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle8.jpg" />
+    <Resource Include="Data\Images\UserAvatarImages\Avatar1.jpg" />
+    <Resource Include="Data\Images\UserAvatarImages\Avatar2.jpg" />
+    <Resource Include="Data\Images\UserAvatarImages\Avatar3.jpg" />
+    <Resource Include="Data\Images\UserAvatarImages\Avatar4.jpg" />
+    <Resource Include="Data\Images\UserAvatarImages\Avatar5.jpg" />
+    <Resource Include="Data\Images\UserAvatarImages\Avatar6.jpg" />
+  </ItemGroup>
+
+</Project>
