@@ -43,9 +43,8 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="Data\UserData\" />
+    <Folder Include="Interfaces\" />
     <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

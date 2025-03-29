@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MemoryGame.Views"
+        xmlns:local="clr-namespace:MemoryGame.ViewModels"
         mc:Ignorable="d"
         Title="Register" Height="450" Width="800">
-    <Grid>
+
+    <Grid Name="yolo2" DataContext="{Binding Source={x:Static local:UsersViewModel.Instance}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -28,9 +29,9 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Username:" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Name="txtUsername" Margin="25"/>
+            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewUser.Username}" Margin="25"/>
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Password:" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Name="txtPassword" Margin="25"/>
+            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewUser.Password}" Margin="25"/>
         </Grid>
 
         <!-- Image and Navigation Buttons -->
@@ -39,17 +40,18 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Image Grid.Row="0" Name="imgProfile" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            <Image Grid.Row="0" Name="imgProfile" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top"
+                   Source="{Binding ProfilePicturePath}"/>
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="⇐" Margin="15" />
-                <Button Content="⇒" Margin="15"/>
+                <Button Content="⇐" Margin="15" Command="{Binding ChangeProfilePicturePathBackwardCommand}"/>
+                <Button Content="⇒" Margin="15" Command="{Binding ChangeProfilePicturePathForwardCommand}"/>
             </StackPanel>
         </Grid>
 
         <!-- Save and Cancel Buttons -->
         <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Save User" Margin="25"/>
-            <Button Content="Cancel" Margin="25" Click="CancelButton_Click"/>
+            <Button Content="Save User" Margin="25" Command="{Binding AddUserCommand}"/>
+            <Button Content="Go Back" Margin="25" Click="CancelButton_Click"/>
         </StackPanel>
         
     </Grid>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MemoryGame.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,8 +24,11 @@ namespace MemoryGame.Views
         {
             InitializeComponent();
         }
+
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
             this.Close();
         }
     }

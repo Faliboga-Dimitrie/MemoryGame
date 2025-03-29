@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MemoryGame.Models
 {
-    class User : BaseClass
+    public class User : BaseClass
     {
         private string _username;
         private string _password;
@@ -37,6 +37,13 @@ namespace MemoryGame.Models
                 _profilePicturePath = value;
                 OnPropertyChanged();
             }
+        }
+
+        public User()
+        {
+            Username = "";
+            Password = "";
+            ProfilePicturePath = "/Data/Images/UserAvatarImages/Avatar1.jpg";
         }
     }
 }

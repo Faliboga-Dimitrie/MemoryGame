@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using MemoryGame.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -37,6 +38,7 @@ namespace MemoryGame.Views
         {
             RegisterWindow registerWindow = new RegisterWindow();
             registerWindow.Show();
+            this.Close();
         }
     }
 }
