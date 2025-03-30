@@ -17,6 +17,9 @@
     <None Remove="Data\Images\GameImages\Animals\Animal6.jpg" />
     <None Remove="Data\Images\GameImages\Animals\Animal7.jpg" />
     <None Remove="Data\Images\GameImages\Animals\Animal8.jpg" />
+    <None Remove="Data\Images\GameImages\Animals\Base.jpg" />
+    <None Remove="Data\Images\GameImages\Base.jpg" />
+    <None Remove="Data\Images\GameImages\BaseImage.jpg" />
     <None Remove="Data\Images\GameImages\Landmarks\Landmark1.jpg" />
     <None Remove="Data\Images\GameImages\Landmarks\Landmark2.jpg" />
     <None Remove="Data\Images\GameImages\Landmarks\Landmark3.jpg" />
@@ -43,8 +46,6 @@
 
   <ItemGroup>
     <Folder Include="Commands\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +57,7 @@
     <Resource Include="Data\Images\GameImages\Animals\Animal6.jpg" />
     <Resource Include="Data\Images\GameImages\Animals\Animal7.jpg" />
     <Resource Include="Data\Images\GameImages\Animals\Animal8.jpg" />
+    <Resource Include="Data\Images\GameImages\Base.jpg" />
     <Resource Include="Data\Images\GameImages\Landmarks\Landmark1.jpg" />
     <Resource Include="Data\Images\GameImages\Landmarks\Landmark2.jpg" />
     <Resource Include="Data\Images\GameImages\Landmarks\Landmark3.jpg" />

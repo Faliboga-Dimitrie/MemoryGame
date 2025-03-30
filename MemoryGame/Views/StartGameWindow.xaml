@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MemoryGame.Views"
+        xmlns:local="clr-namespace:MemoryGame.ViewModels"
         mc:Ignorable="d"
         Title="StartGameWindow" Height="450" Width="800">
-    <Grid>
+
+    <Grid Name="yolo3" DataContext="{Binding Source={x:Static local:GameEngineViewModel.Instance}}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -18,11 +19,13 @@
         <Menu Grid.Row="0">
             <MenuItem Header="File">
                 <MenuItem Header="Category">
-                    <ComboBox Name="cmbCategories" Width="120">
+                    <ComboBox Name="cmbCategories" Width="120" 
+                        SelectedItem="{Binding SelectedCategory}">
                         <ComboBoxItem>Animals</ComboBoxItem>
                         <ComboBoxItem>Landmarks</ComboBoxItem>
                         <ComboBoxItem>Vehicles</ComboBoxItem>
                     </ComboBox>
+                    <Button Command="{Binding CategoryCommand}" Content="Load Category" />
                 </MenuItem>
                 <Separator/>
                 <MenuItem Header="New Game" />
@@ -45,9 +48,26 @@
 
         <!-- Game Grid Placeholder -->
         <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1">
-            <TextBlock Text="Game Grid Will Appear Here" 
-                      HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <ItemsControl ItemsSource="{Binding GridLoader.Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="{Binding Columns}" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Margin="2" BorderBrush="Gray" BorderThickness="1" 
+                            Visibility="{Binding Visibility}">
+                            <Button Command="{Binding DataContext.FlipCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                            CommandParameter="{Binding}">
+                                <Image Source="{Binding CurrentImage}" />
+                            </Button>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Border>
+
 
         <!-- Custom Options Panel -->
         <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10" 
