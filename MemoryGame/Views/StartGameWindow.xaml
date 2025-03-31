@@ -28,7 +28,7 @@
                     <Button Command="{Binding CategoryCommand}" Content="Load Category" />
                 </MenuItem>
                 <Separator/>
-                <MenuItem Header="New Game" />
+                <MenuItem Header="New Game"  Command="{Binding NewGameCommand}"/>
                 <MenuItem Header="Open Game" />
                 <MenuItem Header="Save Game" />
                 <MenuItem Header="Statistics" Click="StatisticsDisplay_Click"/>
@@ -37,17 +37,41 @@
             </MenuItem>
 
             <MenuItem Header="Options">
-                <MenuItem Header="Standard" IsCheckable="True" IsChecked="True" />
-                <MenuItem Header="Custom" IsCheckable="True" />
+                <Button Content="{Binding ButtonContent}" Command="{Binding SelectGameTypeCommand}"/>
             </MenuItem>
 
             <MenuItem Header="Help">
-                <MenuItem Header="About" />
+                <MenuItem Header="About" Command="{Binding AboutCommand}"/>
             </MenuItem>
         </Menu>
 
         <!-- Game Grid Placeholder -->
-        <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1">
+        <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1" Visibility="{Binding GameSpecifier}">
+            <StackPanel>
+                <!-- Grouped Section -->
+                <Border Margin="5" BorderBrush="DarkGray" BorderThickness="1">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Set Time Seconds" Margin="2"/>
+                        <TextBox x:Name="TimeSeconds" Margin="2" Text="{Binding Seconds}"/>
+
+                        <TextBlock Text="Set Time Minutes" Margin="2"/>
+                        <TextBox x:Name="TimeMinutes" Margin="2" Text="{Binding Minutes}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="5" BorderBrush="DarkGray" BorderThickness="1" Visibility="{Binding IsCustomGame}">
+                    <StackPanel Margin="5">
+                        <TextBlock Text="Set Number of Rows" Margin="2" />
+                        <TextBox x:Name="NoRows" Margin="2" Text="{Binding Rows}"/>
+
+                        <TextBlock Text="Set Number of Columns" Margin="2"/>
+                        <TextBox x:Name="NoColumns" Margin="2" Text="{Binding Columns}"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+        <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1" Visibility="{Binding GameStarted}">
             <ItemsControl ItemsSource="{Binding GridLoader.Cells}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -67,17 +91,5 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </Border>
-
-
-        <!-- Custom Options Panel -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10" 
-                   Visibility="Collapsed" Name="pnlCustom">
-            <TextBlock Text="Rows (2-6):" VerticalAlignment="Center"/>
-            <TextBox Width="40" Margin="5" Name="txtRows"/>
-            <TextBlock Text="Columns (2-6):" VerticalAlignment="Center" Margin="10 0 5 0"/>
-            <TextBox Width="40" Margin="5" Name="txtColumns"/>
-            <CheckBox Content="Even Number of Tiles" IsChecked="True" 
-                     VerticalAlignment="Center" Margin="10 0 0 0" IsEnabled="False"/>
-        </StackPanel>
     </Grid>
 </Window>

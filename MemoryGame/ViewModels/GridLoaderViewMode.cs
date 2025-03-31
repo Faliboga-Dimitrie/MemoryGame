@@ -19,7 +19,7 @@ namespace MemoryGame.ViewModels
         private static int _categoryIndex;
         private static int _numberOfImages;
         private int _rows = 4;
-        private int _columns = 5;
+        private int _columns = 3;
 
 
         public int Rows
@@ -110,8 +110,6 @@ namespace MemoryGame.ViewModels
         private int[,] GenerateMemoryGrid()
         {
             int totalSlots = Rows * Columns;
-            if (totalSlots % 2 != 0)
-                throw new ArgumentException("Grid size must be even.");
 
             int numImages = _ints.Count;
             List<int> imagePool = new List<int>();
