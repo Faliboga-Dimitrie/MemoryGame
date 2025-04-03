@@ -1,4 +1,5 @@
 ﻿using MemoryGame.Models;
+using MemoryGame.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,7 +23,6 @@ namespace MemoryGame.Views
     public partial class StartGameWindow : Window
     {
         public ObservableCollection<User> _users;
-        public User _currentUser;
 
         public StartGameWindow()
         {
@@ -33,7 +33,7 @@ namespace MemoryGame.Views
         {
             InitializeComponent();
             _users = users;
-            _currentUser = currentUser;
+            GameEngineViewModel.Instance.CurrentUser = currentUser;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
@@ -45,7 +45,7 @@ namespace MemoryGame.Views
 
         private void StatisticsDisplay_Click(object sender, RoutedEventArgs e)
         {
-            StatisticsWindow statisticsWindow = new StatisticsWindow();
+            StatisticsWindow statisticsWindow = new StatisticsWindow(_users);
             statisticsWindow.Show();
         }
     }

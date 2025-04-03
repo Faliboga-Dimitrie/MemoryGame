@@ -130,7 +130,7 @@ namespace MemoryGame.ViewModels
 
         private void StartGame(object parameter)
         {
-            StartGameWindow startGameWindow = new StartGameWindow();
+            StartGameWindow startGameWindow = new StartGameWindow(this.Users, this.SelectedUser);
             startGameWindow.Show();
             Application.Current.MainWindow.Close(); // Assuming this is the main window
         }

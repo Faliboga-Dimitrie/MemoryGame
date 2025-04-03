@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace MemoryGame.Models
@@ -76,6 +77,23 @@ namespace MemoryGame.Models
                 _userFolder = value;
             }
         }
+
+        public void UpdateJson()
+        {
+            string filePath = Path.Combine(UserFolder, "userdata.json");
+
+            string json = File.ReadAllText(filePath);
+
+            User? user = JsonSerializer.Deserialize<User>(json);
+
+            user.GamesWon = GamesWon;
+            user.TotalGamesPlayed = TotalGamesPlayed;
+
+            string updatedJson = JsonSerializer.Serialize(user, new JsonSerializerOptions { WriteIndented = true });
+
+            File.WriteAllText(filePath, updatedJson);
+        }
+
 
         public User()
         {

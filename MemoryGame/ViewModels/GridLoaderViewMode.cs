@@ -89,6 +89,25 @@ namespace MemoryGame.ViewModels
             }
         }
 
+        public void SaveToJson(string directoryPath)
+        {
+            string json = System.Text.Json.JsonSerializer.Serialize(Cells);
+            string filePath = System.IO.Path.Combine(directoryPath, "GridData.json");
+            System.IO.File.WriteAllText(filePath, json);
+        }
+
+        public void LoadFromJson(string directoryPath)
+        {
+            string filePath = System.IO.Path.Combine(directoryPath, "GridData.json");
+            string json = System.IO.File.ReadAllText(filePath);
+            var loadedCells = System.Text.Json.JsonSerializer.Deserialize<ObservableCollection<GridCell>>(json);
+
+            if (loadedCells != null)
+            {
+                Cells = loadedCells;
+            }
+        }
+
         static GridLoaderViewMode()
         {
             _category = new List<string>

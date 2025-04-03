@@ -2,9 +2,11 @@
 using MemoryGame.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -22,6 +24,7 @@ namespace MemoryGame.ViewModels
         private GameEngine _gameEngine;
         private DialogService _dialogService;
         private TimeTracker _timeTracker;
+        private User _currentUser;
 
         private static List<string> _buttonContents;
 
@@ -32,6 +35,16 @@ namespace MemoryGame.ViewModels
             set
             {
                 _selectedCategory = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set
+            {
+                _currentUser = value;
                 OnPropertyChanged();
             }
         }
@@ -133,6 +146,8 @@ namespace MemoryGame.ViewModels
             AboutCommand = new RelayCommand(AboutDisplay);
             NewGameCommand = new RelayCommand(StartGame, CanStartGame);
             SelectGameTypeCommand = new RelayCommand(SelectGameType);
+            SaveCommand = new RelayCommand(SaveToJson);
+            LoadCommand = new RelayCommand(LoadFromJson);
         }
 
         public RelayCommand FlipCommand { get; }
@@ -144,6 +159,10 @@ namespace MemoryGame.ViewModels
         public RelayCommand NewGameCommand { get; }
 
         public RelayCommand SelectGameTypeCommand { get; }
+
+        public RelayCommand SaveCommand { get; }
+
+        public RelayCommand LoadCommand { get; }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
@@ -202,6 +221,9 @@ namespace MemoryGame.ViewModels
                             GameStarted = Visibility.Hidden;
                             TimeTracker.Minutes = 0;
                             TimeTracker.Seconds = 0;
+                            TimeTracker.Timer.Stop();
+                            CurrentUser.GamesWon++;
+                            CurrentUser.UpdateJson();
                         }
                         else
                         {
@@ -255,7 +277,8 @@ namespace MemoryGame.ViewModels
             GameSpecifier = Visibility.Hidden;
             GameStarted = Visibility.Visible;
             StartTimer(parameter);
-
+            CurrentUser.TotalGamesPlayed++;
+            CurrentUser.UpdateJson();
         }
 
         private bool CanStartGame(object parameter)
@@ -275,6 +298,62 @@ namespace MemoryGame.ViewModels
             {
                 ButtonContent = _buttonContents[0];
                 IsCustomGame = Visibility.Visible;
+            }
+        }
+
+        public void SaveToJson(object parameter)
+        {
+            string directoryPath = CurrentUser.UserFolder;
+
+            GridLoader.SaveToJson(directoryPath);
+
+            GameEngineData gameEngineData = new GameEngineData(GameEngine, SelectedCategory, GridLoader.Rows,
+                GridLoader.Columns, TimeTracker.Minutes, TimeTracker.Seconds, TimeTracker.RemainingTime.Minutes, TimeTracker.RemainingTime.Seconds);
+
+            string json = JsonSerializer.Serialize(gameEngineData, new JsonSerializerOptions { WriteIndented = true });
+
+            string filePath = System.IO.Path.Combine(directoryPath, "GameEngineData.json");
+
+            System.IO.File.WriteAllText(filePath, json);
+        }
+
+        public void LoadFromJson(object parameter)
+        {
+            string directoryPath = CurrentUser.UserFolder;
+
+            ObservableCollection<GridCell> cells = GridLoader.Cells;
+
+            int index = 0;
+
+            string filePath = System.IO.Path.Combine(directoryPath, "GameEngineData.json");
+
+            if (System.IO.File.Exists(filePath))
+            {
+                string json = System.IO.File.ReadAllText(filePath);
+                GameEngineData gameEngineData = JsonSerializer.Deserialize<GameEngineData>(json);
+
+                GameEngine = gameEngineData.GameEngine;
+                TimeTracker.Minutes = gameEngineData.Minutes;
+                TimeTracker.Seconds = gameEngineData.Seconds;
+                TimeTracker.RemainingTime = TimeSpan.FromMinutes(gameEngineData.MinutesLeft);
+                TimeTracker.RemainingTime = TimeTracker.RemainingTime.Add(TimeSpan.FromSeconds(gameEngineData.SecondsLeft));
+                SelectedCategory = gameEngineData.SelectedCategory;
+                GridLoader.Rows = gameEngineData.Rows;
+                GridLoader.Columns = gameEngineData.Columns;
+                GameSpecifier = Visibility.Hidden;
+                GameStarted = Visibility.Visible;
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    GridLoader.LoadFromJson(directoryPath);
+
+                    TimeTracker.Timer.Start();
+
+                });
+            }
+            else
+            {
+                _dialogService.ShowMessage("No saved game found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

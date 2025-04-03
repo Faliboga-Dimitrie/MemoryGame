@@ -31,6 +31,28 @@ namespace MemoryGame.Models
             }
         }
 
+        int _secondLeft;
+        public int SecondLeft
+        {
+            get => _secondLeft;
+            set
+            {
+                _secondLeft = value;
+                OnPropertyChanged();
+            }
+        }
+
+        int _minuteLeft;
+        public int MinuteLeft
+        {
+            get => _minuteLeft;
+            set
+            {
+                _minuteLeft = value;
+                OnPropertyChanged();
+            }
+        }
+
         private DispatcherTimer _timer;
 
         public DispatcherTimer Timer

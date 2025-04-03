@@ -22,13 +22,6 @@ namespace MemoryGame.Views
             InitializeComponent();
         }
 
-        private void StartGameButton_Click(object sender, RoutedEventArgs e)
-        {
-            StartGameWindow startGameWindow = new StartGameWindow();
-            startGameWindow.Show();
-            this.Close();
-        }
-
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

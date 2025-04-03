@@ -32,7 +32,7 @@ namespace MemoryGame.Models
             }
         }
 
-        private bool _isFlipped = false;
+        private bool _isFlipped;
         public bool IsFlipped
         {
             get => _isFlipped;
@@ -54,7 +54,7 @@ namespace MemoryGame.Models
             }
         }
 
-        private Visibility _visibility = Visibility.Visible;
+        private Visibility _visibility;
 
         public Visibility Visibility
         {
@@ -65,11 +65,16 @@ namespace MemoryGame.Models
                 OnPropertyChanged();
             }
         }
+
+        public GridCell() { }
+
         public GridCell(int row, int col,string backImagePath)
         {
             RowIndex = row;
             ColumnIndex = col;
             BackImagePath = backImagePath;
+            IsFlipped = false;
+            Visibility = Visibility.Visible;
             UpdateCurrentImage();
         }
 

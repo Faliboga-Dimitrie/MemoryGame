@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MemoryGame.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,23 +21,20 @@ namespace MemoryGame.Views
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public StatisticsWindow()
+        public StatisticsWindow(ObservableCollection<User> _users)
         {
             InitializeComponent();
-            PopulateStatistics();
+            PopulateStatistics(_users);
         }
 
-        private void PopulateStatistics()
+        private void PopulateStatistics(ObservableCollection<User> _users)
         {
-            // Example data
-            var statistics = new List<UserStatistics>
+            lvStatistics.ItemsSource = _users.Select(user => new UserStatistics
             {
-                new UserStatistics { UserName = "John Doe", GamesPlayed = 10, GamesWon = 5 },
-                new UserStatistics { UserName = "Jane Doe", GamesPlayed = 8, GamesWon = 3 },
-                // Add more users here...
-            };
-
-            lvStatistics.ItemsSource = statistics;
+                UserName = user.Username,
+                GamesPlayed = user.TotalGamesPlayed,
+                GamesWon = user.GamesWon
+            }).ToList();
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
