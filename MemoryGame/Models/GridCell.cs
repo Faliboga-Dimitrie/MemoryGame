@@ -15,7 +15,7 @@ namespace MemoryGame.Models
         public int RowIndex { get; }
         public int ColumnIndex { get; }
 
-        private string _frontImagePath = "Images/GameImages/Base.jpg";
+        private string _frontImagePath = "/Data/Images/GameImages/Base.jpg";
         public string FrontImagePath
         {
             get => _frontImagePath;
@@ -43,8 +43,8 @@ namespace MemoryGame.Models
             }
         }
 
-        private BitmapImage _currentImage;
-        public BitmapImage CurrentImage
+        private string _currentImage;
+        public string CurrentImage
         {
             get => _currentImage;
             set
@@ -77,11 +77,11 @@ namespace MemoryGame.Models
         {
             if (IsFlipped)
             {
-                CurrentImage = new BitmapImage(new Uri($"pack://application:,,,/Data/{BackImagePath}"));
+                CurrentImage = BackImagePath;
             }
             else
             {
-                CurrentImage = new BitmapImage(new Uri($"pack://application:,,,/Data/{FrontImagePath}"));
+                CurrentImage = FrontImagePath;
             }
         }
 

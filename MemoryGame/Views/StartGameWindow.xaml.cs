@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MemoryGame.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +21,19 @@ namespace MemoryGame.Views
     /// </summary>
     public partial class StartGameWindow : Window
     {
+        public ObservableCollection<User> _users;
+        public User _currentUser;
+
         public StartGameWindow()
         {
             InitializeComponent();
+        }
+
+        public StartGameWindow(ObservableCollection<User> users, User currentUser)
+        {
+            InitializeComponent();
+            _users = users;
+            _currentUser = currentUser;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)

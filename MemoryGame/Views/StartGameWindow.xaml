@@ -45,6 +45,11 @@
             </MenuItem>
         </Menu>
 
+        <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="{Binding TimeTracker.RemainingTime, StringFormat='mm\\:ss'}" 
+                   FontSize="22" HorizontalAlignment="Center"/>
+        </StackPanel>
+
         <!-- Game Grid Placeholder -->
         <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1" Visibility="{Binding GameSpecifier}">
             <StackPanel>
@@ -52,20 +57,20 @@
                 <Border Margin="5" BorderBrush="DarkGray" BorderThickness="1">
                     <StackPanel Margin="5">
                         <TextBlock Text="Set Time Seconds" Margin="2"/>
-                        <TextBox x:Name="TimeSeconds" Margin="2" Text="{Binding Seconds}"/>
+                        <TextBox x:Name="TimeSeconds" Margin="2" Text="{Binding TimeTracker.Seconds}"/>
 
                         <TextBlock Text="Set Time Minutes" Margin="2"/>
-                        <TextBox x:Name="TimeMinutes" Margin="2" Text="{Binding Minutes}"/>
+                        <TextBox x:Name="TimeMinutes" Margin="2" Text="{Binding TimeTracker.Minutes}"/>
                     </StackPanel>
                 </Border>
 
                 <Border Margin="5" BorderBrush="DarkGray" BorderThickness="1" Visibility="{Binding IsCustomGame}">
                     <StackPanel Margin="5">
                         <TextBlock Text="Set Number of Rows" Margin="2" />
-                        <TextBox x:Name="NoRows" Margin="2" Text="{Binding Rows}"/>
+                        <TextBox x:Name="NoRows" Margin="2" Text="{Binding GridLoader.Rows}"/>
 
                         <TextBlock Text="Set Number of Columns" Margin="2"/>
-                        <TextBox x:Name="NoColumns" Margin="2" Text="{Binding Columns}"/>
+                        <TextBox x:Name="NoColumns" Margin="2" Text="{Binding GridLoader.Columns}"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -75,7 +80,7 @@
             <ItemsControl ItemsSource="{Binding GridLoader.Cells}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="{Binding Columns}" />
+                        <UniformGrid Columns="{Binding GridLoader.Columns}" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -85,6 +90,7 @@
                             <Button Command="{Binding DataContext.FlipCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                             CommandParameter="{Binding}">
                                 <Image Source="{Binding CurrentImage}" />
+                                <!--<TextBlock Text="{Binding CurrentImage}"/>-->
                             </Button>
                         </Border>
                     </DataTemplate>

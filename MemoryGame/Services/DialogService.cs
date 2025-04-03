@@ -1,5 +1,4 @@
-﻿using MemoryGame.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using System.Windows;
 
 namespace MemoryGame.Models
 {
-    public class DialogService : IDialogService
+    public class DialogService
     {
         public void ShowMessage(string message, string title, MessageBoxButton buttons, MessageBoxImage icon)
         {

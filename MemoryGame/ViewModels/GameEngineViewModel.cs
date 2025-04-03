@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MemoryGame.ViewModels
 {
@@ -20,28 +21,9 @@ namespace MemoryGame.ViewModels
         private GridLoaderViewMode _gridLoader;
         private GameEngine _gameEngine;
         private DialogService _dialogService;
+        private TimeTracker _timeTracker;
 
         private static List<string> _buttonContents;
-
-        public int Rows
-        {
-            get => GridLoader.Rows;
-            set
-            {
-                GridLoader.Rows = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public int Columns
-        {
-            get => GridLoader.Columns;
-            set
-            {
-                GridLoader.Columns = value;
-                OnPropertyChanged();
-            }
-        }
 
         private string _selectedCategory;
         public string SelectedCategory
@@ -54,24 +36,12 @@ namespace MemoryGame.ViewModels
             }
         }
 
-        int _seconds;
-        public int Seconds
+        public TimeTracker TimeTracker
         {
-            get => _seconds;
+            get => _timeTracker;
             set
             {
-                _seconds = value;
-                OnPropertyChanged();
-            }
-        }
-
-        int _minutes;
-        public int Minutes
-        {
-            get => _minutes;
-            set
-            {
-                _minutes = value;
+                _timeTracker = value;
                 OnPropertyChanged();
             }
         }
@@ -153,11 +123,9 @@ namespace MemoryGame.ViewModels
             _gridLoader = new GridLoaderViewMode();
             _gameEngine = new GameEngine();
             _dialogService = new DialogService();
+            _timeTracker = new TimeTracker();
+            _timeTracker.Timer.Tick += Timer_Tick;
 
-            Rows = GridLoader.Rows;
-            Columns = GridLoader.Columns;
-            Minutes = 0;
-            Seconds = 0;
             _buttonContent = _buttonContents[1];
 
             FlipCommand = new RelayCommand(FlipCell);
@@ -176,6 +144,33 @@ namespace MemoryGame.ViewModels
         public RelayCommand NewGameCommand { get; }
 
         public RelayCommand SelectGameTypeCommand { get; }
+
+        private void Timer_Tick(object? sender, EventArgs e)
+        {
+            TimeTracker.RemainingTime = TimeTracker.RemainingTime.Subtract(TimeSpan.FromSeconds(1));
+            if (TimeTracker.RemainingTime <= TimeSpan.Zero)
+                StopTimer();
+        }
+
+        private void StartTimer(object parameter)
+        {
+            TimeTracker.RemainingTime = TimeSpan.FromMinutes(TimeTracker.Minutes);
+            TimeTracker.RemainingTime = TimeTracker.RemainingTime.Add(TimeSpan.FromSeconds(TimeTracker.Seconds));
+            TimeTracker.Timer.Start();
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        private void StopTimer()
+        {
+            TimeTracker.Timer.Stop();
+            CommandManager.InvalidateRequerySuggested();
+            _dialogService.ShowMessage("Time is up!", "Game Over", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            GameSpecifier = Visibility.Visible;
+            GameStarted = Visibility.Hidden;
+            TimeTracker.Minutes = 0;
+            TimeTracker.Seconds = 0;
+            GridLoader.ClearCells();
+        }
 
         private async void FlipCell(object parameter)
         {
@@ -199,14 +194,14 @@ namespace MemoryGame.ViewModels
                     {
                         await Task.Delay(1000);
                         GameEngine.PairsFound++;
-                        if(GameEngine.PairsFound == Rows*Columns / 2)
+                        if(GameEngine.PairsFound == GridLoader.Rows * GridLoader.Columns / 2)
                         {
                             _dialogService.ShowMessage("Congratulations You Won!","Good boy", MessageBoxButton.YesNo, MessageBoxImage.Question);
                             _gridLoader.GenerateCells();
                             GameSpecifier = Visibility.Visible;
                             GameStarted = Visibility.Hidden;
-                            Minutes = 0;
-                            Seconds = 0;
+                            TimeTracker.Minutes = 0;
+                            TimeTracker.Seconds = 0;
                         }
                         else
                         {
@@ -259,11 +254,14 @@ namespace MemoryGame.ViewModels
         {
             GameSpecifier = Visibility.Hidden;
             GameStarted = Visibility.Visible;
+            StartTimer(parameter);
+
         }
 
         private bool CanStartGame(object parameter)
         {
-            return Minutes != 0 && Seconds != 0 && Rows*Columns % 2 == 0;
+            return (TimeTracker.Minutes != 0 || TimeTracker.Seconds != 0) 
+                && GridLoader.Rows * GridLoader.Columns % 2 == 0;
         }
 
         private void SelectGameType(object parameter)

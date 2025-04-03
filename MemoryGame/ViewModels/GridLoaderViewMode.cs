@@ -19,7 +19,7 @@ namespace MemoryGame.ViewModels
         private static int _categoryIndex;
         private static int _numberOfImages;
         private int _rows = 4;
-        private int _columns = 3;
+        private int _columns = 4;
 
 
         public int Rows
@@ -93,9 +93,9 @@ namespace MemoryGame.ViewModels
         {
             _category = new List<string>
             {
-                "Images/GameImages/Animals/Animal",
-                "Images/GameImages/Landmarks/landmark",
-                "Images/GameImages/Vehicles/Vehicle"
+                "/Data/Images/GameImages/Animals/Animal",
+                "/Data/Images/GameImages/Landmarks/landmark",
+                "/Data/Images/GameImages/Vehicles/Vehicle"
             };
             _ints = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
             _categoryIndex = 0;
@@ -105,6 +105,11 @@ namespace MemoryGame.ViewModels
         public GridLoaderViewMode()
         {
             GenerateCells();
+        }
+
+        public void ClearCells()
+        {
+            Cells.Clear();
         }
 
         private int[,] GenerateMemoryGrid()

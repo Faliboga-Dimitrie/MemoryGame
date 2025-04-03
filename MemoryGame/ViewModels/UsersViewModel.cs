@@ -1,5 +1,4 @@
 ﻿using MemoryGame.Commands;
-using MemoryGame.Interfaces;
 using MemoryGame.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace MemoryGame.ViewModels
         private ObservableCollection<User> _users;
         private User _selectedUser;
         private User _newUser;
-        private readonly IDialogService _dialogService;
+        private readonly DialogService _dialogService;
         private string _profilePicturePath = "/Data/Images/UserAvatarImages/Avatar1.jpg";
         private static int _id;
 
@@ -83,6 +82,7 @@ namespace MemoryGame.ViewModels
         public UsersViewModel()
         {
             _dialogService = new DialogService();
+            _users = new ObservableCollection<User>();
             LoadUsersJSON();
             _selectedUser = null;
             _newUser = new User();
@@ -153,57 +153,71 @@ namespace MemoryGame.ViewModels
             int i = _id % 6 + 1;
             ProfilePicturePath = "/Data/Images/UserAvatarImages/Avatar" + i + ".jpg";
         }
-
         private void SaveUsersJSON()
         {
             try
             {
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                string jsonString = JsonSerializer.Serialize(_users, options);
+                string basePath = Path.Combine(
+                    Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)
+                        .Parent.Parent.FullName,
+                    "Data",
+                    "UserData"
+                );
 
-                string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string projectDirectory = Directory.GetParent(currentDirectory).Parent.Parent.FullName;
-                string filePath = Path.Combine(projectDirectory, "Data", "UserData", "users.json");
+                // Create root directory if missing
+                Directory.CreateDirectory(basePath);
 
-                // Ensure the directory exists
-                string directoryPath = Path.GetDirectoryName(filePath);
-                if (!Directory.Exists(directoryPath))
+                foreach (var user in _users)
                 {
-                    Directory.CreateDirectory(directoryPath);
-                }
+                    var userFolder = Path.Combine(basePath, user.GetSafeUsername());
+                    user.UserFolder = userFolder;
+                    var filePath = Path.Combine(userFolder, "userdata.json");
 
-                File.WriteAllText(filePath, jsonString);
+                    Directory.CreateDirectory(userFolder);
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    string json = JsonSerializer.Serialize(user, options);
+                    File.WriteAllText(filePath, json);
+                }
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage("An error occurred while saving users: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowMessage($"Save failed: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
             }
         }
-
         private void LoadUsersJSON()
         {
             try
             {
-                string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string projectDirectory = Directory.GetParent(currentDirectory).Parent.Parent.FullName;
-                string filePath = Path.Combine(projectDirectory, "Data", "UserData", "users.json");
+                string basePath = Path.Combine(
+                    Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)
+                        .Parent.Parent.FullName,
+                    "Data",
+                    "UserData"
+                );
 
-                if (File.Exists(filePath))
+
+
+                if (Directory.Exists(basePath))
                 {
-                    string jsonString = File.ReadAllText(filePath);
-                    // Deserialize into List<User> and convert to ObservableCollection<User>
-                    List<User> usersList = JsonSerializer.Deserialize<List<User>>(jsonString);
-                    _users = new ObservableCollection<User>(usersList);
-                }
-                else
-                {
-                    _users = new ObservableCollection<User>();
+                    foreach (var userFolder in Directory.EnumerateDirectories(basePath))
+                    {
+                        var filePath = Path.Combine(userFolder, "userdata.json");
+                        if (File.Exists(filePath))
+                        {
+                            string json = File.ReadAllText(filePath);
+                            var user = JsonSerializer.Deserialize<User>(json);
+                            _users.Add(user);
+                        }
+                    }
                 }
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage("An error occurred while loading users: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                _users = new ObservableCollection<User>();
+                _dialogService.ShowMessage($"Load failed: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -211,24 +225,28 @@ namespace MemoryGame.ViewModels
         {
             try
             {
-                // Find and remove the user from the existing collection
-                User userToRemove = _users.FirstOrDefault(u => u.Username == username);
-                if (userToRemove != null)
-                {
-                    _users.Remove(userToRemove);
-                }
-                else
-                {
-                    _dialogService.ShowMessage("User not found.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
-                    return;
-                }
+                var user = _users.FirstOrDefault(u => u.Username == username);
+                if (user == null) return;
 
-                // Save the updated collection
-                SaveUsersJSON();
+                string basePath = Path.Combine(
+                    Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory)
+                        .Parent.Parent.FullName,
+                    "Data",
+                    "UserData"
+                );
+
+                var userFolder = Path.Combine(basePath, user.GetSafeUsername());
+
+                if (Directory.Exists(userFolder))
+                {
+                    Directory.Delete(userFolder, true);
+                    _users.Remove(user);
+                }
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage("An error occurred while deleting the user: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                _dialogService.ShowMessage($"Delete failed: {ex.Message}",
+                    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
