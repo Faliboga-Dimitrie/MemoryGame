@@ -188,7 +188,7 @@ namespace MemoryGame.ViewModels
             GameStarted = Visibility.Hidden;
             TimeTracker.Minutes = 0;
             TimeTracker.Seconds = 0;
-            GridLoader.ClearCells();
+            GridLoader.GenerateCells();
         }
 
         private async void FlipCell(object parameter)
@@ -216,12 +216,7 @@ namespace MemoryGame.ViewModels
                         if(GameEngine.PairsFound == GridLoader.Rows * GridLoader.Columns / 2)
                         {
                             _dialogService.ShowMessage("Congratulations You Won!","Good boy", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                            _gridLoader.GenerateCells();
-                            GameSpecifier = Visibility.Visible;
-                            GameStarted = Visibility.Hidden;
-                            TimeTracker.Minutes = 0;
-                            TimeTracker.Seconds = 0;
-                            TimeTracker.Timer.Stop();
+                            ClearLastGame();
                             CurrentUser.GamesWon++;
                             CurrentUser.UpdateJson();
                         }
@@ -276,9 +271,22 @@ namespace MemoryGame.ViewModels
         {
             GameSpecifier = Visibility.Hidden;
             GameStarted = Visibility.Visible;
+            GridLoader.GenerateCells();
             StartTimer(parameter);
             CurrentUser.TotalGamesPlayed++;
             CurrentUser.UpdateJson();
+        }
+
+        public void ClearLastGame()
+        {
+            GameSpecifier = Visibility.Visible;
+            GameStarted = Visibility.Hidden;
+            GridLoader.Rows = 4;
+            GridLoader.Columns = 4;
+            GridLoader.Cells.Clear();
+            TimeTracker.Minutes = 0;
+            TimeTracker.Seconds = 0;
+            TimeTracker.Timer.Stop();
         }
 
         private bool CanStartGame(object parameter)

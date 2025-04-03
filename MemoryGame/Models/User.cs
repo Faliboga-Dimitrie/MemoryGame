@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Text.Json.Serialization;
 
 namespace MemoryGame.Models
 {
@@ -17,6 +20,7 @@ namespace MemoryGame.Models
         private int _gamesWon;
         private int _totalGamesPlayed;
 
+        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
         public string Username
         {
             get => _username;
@@ -45,7 +49,37 @@ namespace MemoryGame.Models
             set
             {
                 _profilePicturePath = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ProfilePicturePath));
+            }
+        }
+
+        [JsonIgnore]
+        public ImageSource ProfilePicture
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ProfilePicturePath))
+                    return null;
+
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ProfilePicturePath);
+
+                if (!File.Exists(fullPath))
+                    return null;
+
+                if (ImageCache.TryGetValue(fullPath, out var cachedImage))
+                {
+                    return cachedImage;
+                }
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri(fullPath, UriKind.Absolute);
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                ImageCache[fullPath] = bitmapImage;
+
+                return bitmapImage;
             }
         }
 
@@ -99,7 +133,7 @@ namespace MemoryGame.Models
         {
             Username = "";
             Password = "";
-            ProfilePicturePath = "/Data/Images/UserAvatarImages/Avatar1.jpg";
+            ProfilePicturePath = "Data/Images/UserAvatarImages/Avatar1.jpg";
         }
     }
 }

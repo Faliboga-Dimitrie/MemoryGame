@@ -51,37 +51,99 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Data\Images\GameImages\Animals\Animal1.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal2.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal3.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal4.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal5.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal6.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal7.jpg" />
-    <Resource Include="Data\Images\GameImages\Animals\Animal8.jpg" />
-    <Resource Include="Data\Images\GameImages\Base.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark1.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark2.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark3.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark4.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark5.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark6.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark7.jpg" />
-    <Resource Include="Data\Images\GameImages\Landmarks\Landmark8.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle1.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle2.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle3.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle4.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle5.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle6.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle7.jpg" />
-    <Resource Include="Data\Images\GameImages\Vehicles\Vehicle8.jpg" />
-    <Resource Include="Data\Images\UserAvatarImages\Avatar1.jpg" />
-    <Resource Include="Data\Images\UserAvatarImages\Avatar2.jpg" />
-    <Resource Include="Data\Images\UserAvatarImages\Avatar3.jpg" />
-    <Resource Include="Data\Images\UserAvatarImages\Avatar4.jpg" />
-    <Resource Include="Data\Images\UserAvatarImages\Avatar5.jpg" />
-    <Resource Include="Data\Images\UserAvatarImages\Avatar6.jpg" />
+    <Content Include="Data\Images\GameImages\Animals\Animal1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Animals\Animal8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Base.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Landmarks\Landmark8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\GameImages\Vehicles\Vehicle8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\UserAvatarImages\Avatar1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\UserAvatarImages\Avatar2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\UserAvatarImages\Avatar3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\UserAvatarImages\Avatar4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\UserAvatarImages\Avatar5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Data\Images\UserAvatarImages\Avatar6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

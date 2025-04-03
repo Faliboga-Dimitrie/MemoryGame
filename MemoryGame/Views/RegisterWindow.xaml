@@ -5,7 +5,81 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryGame.ViewModels"
         mc:Ignorable="d"
-        Title="Register" Height="450" Width="800">
+        Title="Register - Futuristic" Height="500" Width="800"
+        Background="#0D0D0D" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!-- Neon Button Style -->
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#0FF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#0FF" BlurRadius="10" ShadowDepth="0"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0FF"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="#FF00FF"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#FF00FF" BlurRadius="15" ShadowDepth="0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF00FF"/>
+                    <Setter Property="BorderBrush" Value="#00FFFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Holographic TextBox Style -->
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="#0FF"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#0FF" BlurRadius="5" ShadowDepth="0"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="BorderBrush" Value="#FF00FF"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#FF00FF" BlurRadius="10" ShadowDepth="0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Glass-Like Panel (No Blur) -->
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="White" Opacity="0.15"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#0FF"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+    </Window.Resources>
 
     <Grid Name="yolo2" DataContext="{Binding Source={x:Static local:UsersViewModel.Instance}}">
         <Grid.RowDefinitions>
@@ -14,45 +88,56 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Text Boxes for Username and Password -->
-        <Grid Grid.Column="0" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Grid.Row="0" Text="Username:" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewUser.Username}" Margin="25"/>
-            <TextBlock Grid.Column="0" Grid.Row="1" Text="Password:" VerticalAlignment="Center"/>
-            <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewUser.Password}" Margin="25"/>
-        </Grid>
+        <!-- Username & Password Input Fields -->
+        <Border Grid.Column="0" Grid.Row="0" Margin="20" Padding="15">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-        <!-- Image and Navigation Buttons -->
-        <Grid Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Image Grid.Row="0" Name="imgProfile" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top"
-                   Source="{Binding ProfilePicturePath}"/>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="⇐" Margin="15" Command="{Binding ChangeProfilePicturePathBackwardCommand}"/>
-                <Button Content="⇒" Margin="15" Command="{Binding ChangeProfilePicturePathForwardCommand}"/>
-            </StackPanel>
-        </Grid>
+                <TextBlock Grid.Column="0" Grid.Row="0" Text="Username:" Foreground="#0FF" FontSize="16" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="0" Text="{Binding NewUser.Username}"/>
 
-        <!-- Save and Cancel Buttons -->
+                <TextBlock Grid.Column="0" Grid.Row="1" Text="Password:" Foreground="#0FF" FontSize="16" VerticalAlignment="Center"/>
+                <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding NewUser.Password}" />
+            </Grid>
+        </Border>
+
+        <!-- Profile Image & Navigation Buttons -->
+        <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Margin="20" Padding="15"
+                BorderBrush="#0FF" BorderThickness="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Image Grid.Row="0" Name="imgProfile" Width="200" Height="200" HorizontalAlignment="Center" VerticalAlignment="Top"
+                       Source="{Binding ProfilePicture}"/>
+
+                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="⇐" Command="{Binding ChangeProfilePicturePathBackwardCommand}"/>
+                    <Button Content="⇒" Command="{Binding ChangeProfilePicturePathForwardCommand}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Save & Cancel Buttons -->
         <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Save User" Margin="25" Command="{Binding AddUserCommand}"/>
-            <Button Content="Go Back" Margin="25" Click="CancelButton_Click"/>
+            <Button Content="Save User" Command="{Binding AddUserCommand}"/>
+            <Button Content="Go Back" Click="CancelButton_Click"/>
         </StackPanel>
-        
+
     </Grid>
 </Window>
+
+

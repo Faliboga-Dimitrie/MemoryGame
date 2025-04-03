@@ -5,28 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryGame.Views"
         mc:Ignorable="d"
-        Title="StatisticsWindow" Height="450" Width="800">
+        Title="StatisticsWindow" Height="450" Width="800" Background="#2A2A2A">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="0" Name="lvStatistics" Margin="10">
+        <!-- ListView with Statistics -->
+        <ListView Grid.Row="0" Name="lvStatistics" Margin="20" Background="#333" BorderBrush="#444" BorderThickness="1" Foreground="White" FontFamily="Segoe UI" FontSize="14">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Nume Utilizator" Width="150" 
-                                    DisplayMemberBinding="{Binding UserName}"/>
+                                    DisplayMemberBinding="{Binding UserName}" HeaderContainerStyle="{StaticResource {x:Type GridViewColumnHeader}}" />
                     <GridViewColumn Header="Jocuri Jucate" Width="100" 
-                                    DisplayMemberBinding="{Binding GamesPlayed}"/>
+                                    DisplayMemberBinding="{Binding GamesPlayed}" HeaderContainerStyle="{StaticResource {x:Type GridViewColumnHeader}}"/>
                     <GridViewColumn Header="Jocuri Castigate" Width="100" 
-                                    DisplayMemberBinding="{Binding GamesWon}"/>
+                                    DisplayMemberBinding="{Binding GamesWon}" HeaderContainerStyle="{StaticResource {x:Type GridViewColumnHeader}}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Close" Margin="5" Click="btnClose_Click"/>
+        <!-- Close Button with Style -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+            <Button Content="Close" Margin="5" Click="btnClose_Click" Padding="10,5" FontSize="16" FontWeight="Bold" Background="#4A90E2" Foreground="White" BorderBrush="#3A7BD5" BorderThickness="1" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#357ABD"/>
+                                <Setter Property="Cursor" Value="Hand"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#2A649A"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
     </Grid>
+
 </Window>

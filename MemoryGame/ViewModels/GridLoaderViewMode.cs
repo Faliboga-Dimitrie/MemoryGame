@@ -112,9 +112,9 @@ namespace MemoryGame.ViewModels
         {
             _category = new List<string>
             {
-                "/Data/Images/GameImages/Animals/Animal",
-                "/Data/Images/GameImages/Landmarks/landmark",
-                "/Data/Images/GameImages/Vehicles/Vehicle"
+                "Data/Images/GameImages/Animals/Animal",
+                "Data/Images/GameImages/Landmarks/landmark",
+                "Data/Images/GameImages/Vehicles/Vehicle"
             };
             _ints = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
             _categoryIndex = 0;

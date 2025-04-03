@@ -5,36 +5,99 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryGame.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Memory Game - Futuristic" Height="500" Width="800"
+        Background="#0D0D0D" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <!-- Futuristic Button Style -->
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="10 5"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="#0FF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#0FF" BlurRadius="10" ShadowDepth="0"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#0FF"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderBrush" Value="#FF00FF"/>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="#FF00FF" BlurRadius="15" ShadowDepth="0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#FF00FF"/>
+                    <Setter Property="BorderBrush" Value="#00FFFF"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Neon Glass Panel (No Blur) -->
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="White" Opacity="0.12"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="BorderBrush" Value="#0FF"/>
+            <Setter Property="BorderThickness" Value="2"/>
+        </Style>
+
+        <!-- Futuristic ListBox Style -->
+        <Style TargetType="ListBox">
+            <Setter Property="Background" Value="#111"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="#0FF"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+    </Window.Resources>
+
     <Grid Name="Yolo" DataContext="{Binding Source={x:Static local:UsersViewModel.Instance}}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ListBox for Registered Users -->
-        <ListBox Grid.Column="0" Grid.Row="0" Name="lbUsers" 
-                 DisplayMemberPath="Username"
-                 ItemsSource="{Binding Users}"
-                 SelectedItem="{Binding SelectedUser}">
-        </ListBox>
+        <!-- User List -->
+        <Border Grid.Column="0" Grid.Row="0" Margin="20" Padding="10">
+            <ListBox Name="lbUsers" 
+                     DisplayMemberPath="Username"
+                     ItemsSource="{Binding Users}"
+                     SelectedItem="{Binding SelectedUser}"
+                     HorizontalContentAlignment="Center"/>
+        </Border>
 
-        <!-- Profile Image for Selected User -->
-        <Image Grid.Column="1" Grid.Row="0" Name="imgProfile" 
-               Width="300" Height="300" 
-               HorizontalAlignment="Center" VerticalAlignment="Center" 
-               Source="{Binding SelectedUser.ProfilePicturePath}" />
-        <!-- Buttons Below the ListBox -->
+        <!-- Profile Image with Neon Frame -->
+        <Border Grid.Column="1" Grid.Row="0" Margin="20" Padding="10"
+                BorderBrush="#0FF" BorderThickness="3">
+            <Image Name="imgProfile" Width="400" Height="400"
+                   Source="{Binding SelectedUser.ProfilePicture}" />
+        </Border>
+
+        <!-- Buttons Section -->
         <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Register" Margin="25" Click="RegisterUser_Click"/>
-            <Button Content="Delete User" Margin="25" Command="{Binding DeleteUserCommand}"/>
-            <Button Content="Play" Margin="25" Command="{Binding StartGameCommand}"/>
-            <Button Content="Exit Game" Margin="25" Click="ExitButton_Click"/>
+            <Button Content="Register" Click="RegisterUser_Click"/>
+            <Button Content="Delete User" Command="{Binding DeleteUserCommand}"/>
+            <Button Content="Play" Command="{Binding StartGameCommand}"/>
+            <Button Content="Exit Game" Click="ExitButton_Click"/>
         </StackPanel>
-
     </Grid>
 </Window>
+

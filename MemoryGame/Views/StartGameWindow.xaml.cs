@@ -39,6 +39,7 @@ namespace MemoryGame.Views
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
+            GameEngineViewModel.Instance.ClearLastGame();
             mainWindow.Show();
             this.Close();
         }

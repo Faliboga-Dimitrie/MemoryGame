@@ -11,6 +11,9 @@ using System.Windows;
 using System.Windows.Input;
 using System.IO;
 using MemoryGame.Views;
+using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using System.Text.Json.Serialization;
 
 namespace MemoryGame.ViewModels
 {
@@ -24,8 +27,9 @@ namespace MemoryGame.ViewModels
         private User _selectedUser;
         private User _newUser;
         private readonly DialogService _dialogService;
-        private string _profilePicturePath = "/Data/Images/UserAvatarImages/Avatar1.jpg";
+        private string _profilePicturePath = "Data/Images/UserAvatarImages/Avatar1.jpg";
         private static int _id;
+        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
 
         public ObservableCollection<User> Users
         {
@@ -62,7 +66,37 @@ namespace MemoryGame.ViewModels
             set
             {
                 _profilePicturePath = value;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ProfilePicture));
+            }
+        }
+
+        [JsonIgnore]
+        public ImageSource ProfilePicture
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(ProfilePicturePath))
+                    return null;
+
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ProfilePicturePath);
+
+                if (!File.Exists(fullPath))
+                    return null;
+
+                if (ImageCache.TryGetValue(fullPath, out var cachedImage))
+                {
+                    return cachedImage;
+                }
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri(fullPath, UriKind.Absolute);
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                ImageCache[fullPath] = bitmapImage;
+
+                return bitmapImage;
             }
         }
 
@@ -144,14 +178,14 @@ namespace MemoryGame.ViewModels
         {
             _id++;
             int i = _id % 6 + 1;
-            ProfilePicturePath = "/Data/Images/UserAvatarImages/Avatar" + i + ".jpg";
+            ProfilePicturePath = "Data/Images/UserAvatarImages/Avatar" + i + ".jpg";
         }
 
         private void ChangeProfilePicturePathBackward(object parameter)
         {
             _id = (_id + 5) % 6;
             int i = _id % 6 + 1;
-            ProfilePicturePath = "/Data/Images/UserAvatarImages/Avatar" + i + ".jpg";
+            ProfilePicturePath = "Data/Images/UserAvatarImages/Avatar" + i + ".jpg";
         }
         private void SaveUsersJSON()
         {
