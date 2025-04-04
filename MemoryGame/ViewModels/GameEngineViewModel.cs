@@ -160,8 +160,8 @@ namespace MemoryGame.ViewModels
             AboutCommand = new RelayCommand(AboutDisplay);
             NewGameCommand = new RelayCommand(StartGame, CanStartGame);
             SelectGameTypeCommand = new RelayCommand(SelectGameType);
-            SaveCommand = new RelayCommand(SaveToJson);
-            LoadCommand = new RelayCommand(LoadFromJson);
+            SaveCommand = new RelayCommand(SaveToJson,CanSaveGame);
+            LoadCommand = new RelayCommand(LoadFromJson,CanLoadGame);
             DisplayStatisticsCommand = new RelayCommand(DisplayStatistics);
             ReturnToMainWindowCommand = new RelayCommand(ReturnToMainWindow);
         }
@@ -315,6 +315,16 @@ namespace MemoryGame.ViewModels
         {
             return (TimeTracker.Minutes != 0 || TimeTracker.Seconds != 0) 
                 && GridLoader.Rows * GridLoader.Columns % 2 == 0;
+        }
+
+        private bool CanSaveGame(object parameter)
+        {
+            return GameStarted == Visibility.Visible;
+        }
+
+        private bool CanLoadGame(object parameter)
+        {
+            return GameSpecifier == Visibility.Visible;
         }
 
         private void SelectGameType(object parameter)
