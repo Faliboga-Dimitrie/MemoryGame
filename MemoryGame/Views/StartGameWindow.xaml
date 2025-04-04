@@ -5,7 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryGame.ViewModels"
         mc:Ignorable="d"
-        Title="StartGameWindow" Height="450" Width="800">
+        Title="Start Game" Height="500" Width="900"
+        Background="#0F111A"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#D0F0FF"/>
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="Background" Value="#1E1F2F"/>
+            <Setter Property="Foreground" Value="#00FFF7"/>
+            <Setter Property="Padding" Value="8,4"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="BorderBrush" Value="#00FFF7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#1A1C2D"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="BorderBrush" Value="#00FFF7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="#1A1C2D"/>
+            <Setter Property="Foreground" Value="#00FFF7"/>
+            <Setter Property="BorderBrush" Value="#00FFF7"/>
+        </Style>
+    </Window.Resources>
 
     <Grid Name="yolo3" DataContext="{Binding Source={x:Static local:GameEngineViewModel.Instance}}">
         <Grid.RowDefinitions>
@@ -15,12 +46,11 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Menu Section -->
-        <Menu Grid.Row="0">
-            <MenuItem Header="File">
+        <!-- Menu Bar -->
+        <Menu Grid.Row="0" Background="#1A1C2D" Foreground="#00FFF7" FontWeight="Bold">
+            <MenuItem Header="File" Background="#1A1C2D">
                 <MenuItem Header="Category">
-                    <ComboBox Name="cmbCategories" Width="120" 
-                        SelectedItem="{Binding SelectedCategory}">
+                    <ComboBox Name="cmbCategories" Width="140" SelectedItem="{Binding SelectedCategory}">
                         <ComboBoxItem>Animals</ComboBoxItem>
                         <ComboBoxItem>Landmarks</ComboBoxItem>
                         <ComboBoxItem>Vehicles</ComboBoxItem>
@@ -31,52 +61,49 @@
                 <MenuItem Header="New Game"  Command="{Binding NewGameCommand}"/>
                 <MenuItem Header="Open Game" Command="{Binding LoadCommand}"/>
                 <MenuItem Header="Save Game" Command="{Binding SaveCommand}"/>
-                <MenuItem Header="Statistics" Click="StatisticsDisplay_Click"/>
+                <MenuItem Header="Statistics" Command="{Binding DisplayStatisticsCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
                 <Separator/>
-                <MenuItem Header="Exit" Click="Exit_Click"/>
+                <MenuItem Header="Exit" Command="{Binding ReturnToMainWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             </MenuItem>
-
             <MenuItem Header="Options">
-                <Button Content="{Binding ButtonContent}" Command="{Binding SelectGameTypeCommand}"/>
+                <Button Content="{Binding ButtonContent}" Command="{Binding SelectGameTypeCommand}" />
             </MenuItem>
-
             <MenuItem Header="Help">
                 <MenuItem Header="About" Command="{Binding AboutCommand}"/>
             </MenuItem>
         </Menu>
 
-        <StackPanel VerticalAlignment="Center">
+        <!-- Timer Display -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" Margin="0,10">
             <TextBlock Text="{Binding TimeTracker.RemainingTime, StringFormat='mm\\:ss'}" 
-                   FontSize="22" HorizontalAlignment="Center"/>
+                       FontSize="32" HorizontalAlignment="Center" Foreground="#00FFF7"/>
         </StackPanel>
 
-        <!-- Game Grid Placeholder -->
-        <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1" Visibility="{Binding GameSpecifier}">
+        <!-- Game Settings / Configuration Panel -->
+        <Border Grid.Row="2" Margin="10" CornerRadius="10" Background="#1A1C2D" BorderBrush="#2DE3F1" BorderThickness="1" Visibility="{Binding GameSpecifier}">
             <StackPanel>
-                <!-- Grouped Section -->
-                <Border Margin="5" BorderBrush="DarkGray" BorderThickness="1">
-                    <StackPanel Margin="5">
-                        <TextBlock Text="Set Time Seconds" Margin="2"/>
-                        <TextBox x:Name="TimeSeconds" Margin="2" Text="{Binding TimeTracker.Seconds}"/>
-
-                        <TextBlock Text="Set Time Minutes" Margin="2"/>
-                        <TextBox x:Name="TimeMinutes" Margin="2" Text="{Binding TimeTracker.Minutes}"/>
+                <Border Margin="5" CornerRadius="8" Background="#222637" Padding="5" BorderBrush="#2DE3F1" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="Set Time Seconds"/>
+                        <TextBox x:Name="TimeSeconds" Text="{Binding TimeTracker.Seconds}"/>
+                        <TextBlock Text="Set Time Minutes"/>
+                        <TextBox x:Name="TimeMinutes" Text="{Binding TimeTracker.Minutes}"/>
                     </StackPanel>
                 </Border>
 
-                <Border Margin="5" BorderBrush="DarkGray" BorderThickness="1" Visibility="{Binding IsCustomGame}">
-                    <StackPanel Margin="5">
-                        <TextBlock Text="Set Number of Rows" Margin="2" />
-                        <TextBox x:Name="NoRows" Margin="2" Text="{Binding GridLoader.Rows}"/>
-
-                        <TextBlock Text="Set Number of Columns" Margin="2"/>
-                        <TextBox x:Name="NoColumns" Margin="2" Text="{Binding GridLoader.Columns}"/>
+                <Border Margin="5" CornerRadius="8" Background="#222637" Padding="5" BorderBrush="#2DE3F1" BorderThickness="1" Visibility="{Binding IsCustomGame}">
+                    <StackPanel>
+                        <TextBlock Text="Set Number of Rows"/>
+                        <TextBox x:Name="NoRows" Text="{Binding GridLoader.Rows}"/>
+                        <TextBlock Text="Set Number of Columns"/>
+                        <TextBox x:Name="NoColumns" Text="{Binding GridLoader.Columns}"/>
                     </StackPanel>
                 </Border>
             </StackPanel>
         </Border>
 
-        <Border Grid.Row="2" Margin="10" BorderBrush="Gray" BorderThickness="1" Visibility="{Binding GameStarted}">
+        <!-- Game Grid -->
+        <Border Grid.Row="2" Margin="10" CornerRadius="10" Background="#12141D" BorderBrush="#00FFF7" BorderThickness="1" Visibility="{Binding GameStarted}">
             <ItemsControl ItemsSource="{Binding GridLoader.Cells}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -85,12 +112,10 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="2" BorderBrush="Gray" BorderThickness="1" 
-                            Visibility="{Binding Visibility}">
+                        <Border Margin="2" BorderBrush="#2DE3F1" CornerRadius="6" BorderThickness="1" Background="#1E1F2F">
                             <Button Command="{Binding DataContext.FlipCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                            CommandParameter="{Binding}">
-                                <Image Source="{Binding CurrentImage}" />
-                                <!--<TextBlock Text="{Binding CurrentImage}"/>-->
+                                    CommandParameter="{Binding}" Background="Transparent" BorderThickness="0" Visibility="{Binding Visibility}">
+                                <Image Source="{Binding CurrentImage}" Stretch="Uniform"/>
                             </Button>
                         </Border>
                     </DataTemplate>

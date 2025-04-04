@@ -1,4 +1,6 @@
 ﻿using MemoryGame.Models;
+using MemoryGame.Services;
+using MemoryGame.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -21,10 +23,12 @@ namespace MemoryGame.Views
     /// </summary>
     public partial class StatisticsWindow : Window
     {
-        public StatisticsWindow(ObservableCollection<User> _users)
+        public StatisticsWindow(ObservableCollection<User> _users, User currentUser)
         {
             InitializeComponent();
             PopulateStatistics(_users);
+            UserStatistics.Users = _users;
+            UserStatistics.CurrentUser = currentUser;
         }
 
         private void PopulateStatistics(ObservableCollection<User> _users)
@@ -35,18 +39,31 @@ namespace MemoryGame.Views
                 GamesPlayed = user.TotalGamesPlayed,
                 GamesWon = user.GamesWon
             }).ToList();
-        }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            Test.DataContext = new UserStatistics
+            {
+                CloseCommand = new RelayCommand(UserStatistics.CloseWindow)
+            };
         }
     }
 
     public class UserStatistics
     {
+        public static ObservableCollection<User> Users { get; set; }
+
+        public static User CurrentUser { get; set; }
         public string UserName { get; set; }
         public int GamesPlayed { get; set; }
         public int GamesWon { get; set; }
+
+        public ICommand CloseCommand { get; set; }
+
+        public static async void CloseWindow(object parameter)
+        {
+            if (parameter is Window window)
+            {
+                await WindowTransitionService.SlideSwitch(window, new StartGameWindow(Users,CurrentUser), Enums.SlideDirection.Left, 500);
+            }
+        }
     }
 }

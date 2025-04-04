@@ -134,7 +134,7 @@
         <!-- Save & Cancel Buttons -->
         <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Save User" Command="{Binding AddUserCommand}"/>
-            <Button Content="Go Back" Click="CancelButton_Click"/>
+            <Button Content="Go Back" Command="{Binding ReturnMainWindowCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
         </StackPanel>
 
     </Grid>

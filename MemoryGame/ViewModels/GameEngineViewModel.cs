@@ -1,5 +1,7 @@
 ﻿using MemoryGame.Commands;
 using MemoryGame.Models;
+using MemoryGame.Services;
+using MemoryGame.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MemoryGame.Views;
 
 namespace MemoryGame.ViewModels
 {
@@ -25,6 +28,7 @@ namespace MemoryGame.ViewModels
         private DialogService _dialogService;
         private TimeTracker _timeTracker;
         private User _currentUser;
+        private static ObservableCollection<User> _users;
 
         private static List<string> _buttonContents;
 
@@ -45,6 +49,16 @@ namespace MemoryGame.ViewModels
             set
             {
                 _currentUser = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<User> Users
+        {
+            get => _users;
+            set
+            {
+                _users = value;
                 OnPropertyChanged();
             }
         }
@@ -148,21 +162,27 @@ namespace MemoryGame.ViewModels
             SelectGameTypeCommand = new RelayCommand(SelectGameType);
             SaveCommand = new RelayCommand(SaveToJson);
             LoadCommand = new RelayCommand(LoadFromJson);
+            DisplayStatisticsCommand = new RelayCommand(DisplayStatistics);
+            ReturnToMainWindowCommand = new RelayCommand(ReturnToMainWindow);
         }
 
-        public RelayCommand FlipCommand { get; }
+        public ICommand FlipCommand { get; }
 
-        public RelayCommand CategoryCommand { get; }
+        public ICommand CategoryCommand { get; }
 
-        public RelayCommand AboutCommand { get; }
+        public ICommand AboutCommand { get; }
 
-        public RelayCommand NewGameCommand { get; }
+        public ICommand NewGameCommand { get; }
 
-        public RelayCommand SelectGameTypeCommand { get; }
+        public ICommand SelectGameTypeCommand { get; }
 
-        public RelayCommand SaveCommand { get; }
+        public ICommand SaveCommand { get; }
 
-        public RelayCommand LoadCommand { get; }
+        public ICommand LoadCommand { get; }
+
+        public ICommand DisplayStatisticsCommand { get; }
+
+        public ICommand ReturnToMainWindowCommand { get; }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
@@ -284,9 +304,11 @@ namespace MemoryGame.ViewModels
             GridLoader.Rows = 4;
             GridLoader.Columns = 4;
             GridLoader.Cells.Clear();
+            TimeTracker.Timer.Stop();
             TimeTracker.Minutes = 0;
             TimeTracker.Seconds = 0;
-            TimeTracker.Timer.Stop();
+            TimeTracker.RemainingTime = TimeSpan.FromMinutes(0);
+            TimeTracker.RemainingTime = TimeTracker.RemainingTime.Add(TimeSpan.FromSeconds(0));
         }
 
         private bool CanStartGame(object parameter)
@@ -306,6 +328,24 @@ namespace MemoryGame.ViewModels
             {
                 ButtonContent = _buttonContents[0];
                 IsCustomGame = Visibility.Visible;
+            }
+        }
+
+        public async void DisplayStatistics(object parameter)
+        {
+            if (parameter is Window currentWindow)
+            {
+                StatisticsWindow statisticsWindow = new StatisticsWindow(Users, CurrentUser);
+                await WindowTransitionService.SlideSwitch(currentWindow, statisticsWindow, SlideDirection.Right, 500);
+            }
+        }
+
+        public async void ReturnToMainWindow(object parameter)
+        {
+            if (parameter is Window currentWindow)
+            {
+                ClearLastGame();
+                await WindowTransitionService.FadeSwitch(currentWindow, new MainWindow(), 500);
             }
         }
 

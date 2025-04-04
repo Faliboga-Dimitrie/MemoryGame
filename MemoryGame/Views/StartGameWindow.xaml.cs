@@ -22,8 +22,6 @@ namespace MemoryGame.Views
     /// </summary>
     public partial class StartGameWindow : Window
     {
-        public ObservableCollection<User> _users;
-
         public StartGameWindow()
         {
             InitializeComponent();
@@ -32,22 +30,8 @@ namespace MemoryGame.Views
         public StartGameWindow(ObservableCollection<User> users, User currentUser)
         {
             InitializeComponent();
-            _users = users;
             GameEngineViewModel.Instance.CurrentUser = currentUser;
-        }
-
-        private void Exit_Click(object sender, RoutedEventArgs e)
-        {
-            MainWindow mainWindow = new MainWindow();
-            GameEngineViewModel.Instance.ClearLastGame();
-            mainWindow.Show();
-            this.Close();
-        }
-
-        private void StatisticsDisplay_Click(object sender, RoutedEventArgs e)
-        {
-            StatisticsWindow statisticsWindow = new StatisticsWindow(_users);
-            statisticsWindow.Show();
+            GameEngineViewModel.Instance.Users = users;
         }
     }
 }

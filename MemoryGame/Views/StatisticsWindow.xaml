@@ -5,7 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryGame.Views"
         mc:Ignorable="d"
-        Title="StatisticsWindow" Height="450" Width="800" Background="#2A2A2A">
+        Title="Game Statistics" Height="450" Width="800"
+        Background="#0F111A"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Foreground" Value="#00FFF7"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Background" Value="#1F212F"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="BorderBrush" Value="#2DE3F1"/>
+            <Setter Property="BorderThickness" Value="0 0 0 1"/>
+        </Style>
+
+        <Style TargetType="Button" x:Key="NeonButton">
+            <Setter Property="FontFamily" Value="Segoe UI Semibold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="#00FFF7"/>
+            <Setter Property="Background" Value="#1E1F2F"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="BorderBrush" Value="#00FFF7"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="#00FFF7" BlurRadius="8" ShadowDepth="0"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2B2F3F"/>
+                    <Setter Property="Foreground" Value="#2DE3F1"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#1A1D2A"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -13,38 +52,29 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- ListView with Statistics -->
-        <ListView Grid.Row="0" Name="lvStatistics" Margin="20" Background="#333" BorderBrush="#444" BorderThickness="1" Foreground="White" FontFamily="Segoe UI" FontSize="14">
+        <!-- Futuristic ListView -->
+        <ListView Grid.Row="0" Name="lvStatistics" Margin="20"
+                  Background="#181A24"
+                  BorderBrush="#2DE3F1"
+                  BorderThickness="1"
+                  Foreground="#D0F0FF"
+                  FontFamily="Segoe UI"
+                  FontSize="14">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Nume Utilizator" Width="150" 
-                                    DisplayMemberBinding="{Binding UserName}" HeaderContainerStyle="{StaticResource {x:Type GridViewColumnHeader}}" />
-                    <GridViewColumn Header="Jocuri Jucate" Width="100" 
-                                    DisplayMemberBinding="{Binding GamesPlayed}" HeaderContainerStyle="{StaticResource {x:Type GridViewColumnHeader}}"/>
-                    <GridViewColumn Header="Jocuri Castigate" Width="100" 
-                                    DisplayMemberBinding="{Binding GamesWon}" HeaderContainerStyle="{StaticResource {x:Type GridViewColumnHeader}}"/>
+                    <GridViewColumn Header="Nume Utilizator" Width="180"
+                                    DisplayMemberBinding="{Binding UserName}" />
+                    <GridViewColumn Header="Jocuri Jucate" Width="140"
+                                    DisplayMemberBinding="{Binding GamesPlayed}" />
+                    <GridViewColumn Header="Jocuri Castigate" Width="140"
+                                    DisplayMemberBinding="{Binding GamesWon}" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <!-- Close Button with Style -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
-            <Button Content="Close" Margin="5" Click="btnClose_Click" Padding="10,5" FontSize="16" FontWeight="Bold" Background="#4A90E2" Foreground="White" BorderBrush="#3A7BD5" BorderThickness="1" >
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#357ABD"/>
-                                <Setter Property="Cursor" Value="Hand"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Background" Value="#2A649A"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+        <!-- Futuristic Close Button -->
+        <StackPanel x:Name="Test" Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="20">
+            <Button Content="Close" Command="{Binding CloseCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Style="{StaticResource NeonButton}" />
         </StackPanel>
     </Grid>
-
 </Window>

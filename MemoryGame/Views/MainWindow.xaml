@@ -93,9 +93,9 @@
 
         <!-- Buttons Section -->
         <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Register" Click="RegisterUser_Click"/>
+            <Button Content="Register" Command="{Binding UserRegisterCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Button Content="Delete User" Command="{Binding DeleteUserCommand}"/>
-            <Button Content="Play" Command="{Binding StartGameCommand}"/>
+            <Button Content="Start" Command="{Binding StartGameCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             <Button Content="Exit Game" Click="ExitButton_Click"/>
         </StackPanel>
     </Grid>

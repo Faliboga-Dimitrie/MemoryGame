@@ -14,6 +14,9 @@ using MemoryGame.Views;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
 using System.Text.Json.Serialization;
+using System.Windows.Media.Animation;
+using MemoryGame.Services;
+using MemoryGame.Enums;
 
 namespace MemoryGame.ViewModels
 {
@@ -108,6 +111,10 @@ namespace MemoryGame.ViewModels
 
         public ICommand StartGameCommand { get;}
 
+        public ICommand UserRegisterCommand { get; }
+
+        public ICommand ReturnMainWindowCommand { get; }
+
         static UsersViewModel()
         {
             _id = 0;
@@ -125,6 +132,8 @@ namespace MemoryGame.ViewModels
             ChangeProfilePicturePathBackwardCommand = new RelayCommand(ChangeProfilePicturePathBackward);
             DeleteUserCommand = new RelayCommand(DeleteUser, CanDeleteUser);
             StartGameCommand = new RelayCommand(StartGame, CanStartGame);
+            UserRegisterCommand = new RelayCommand(UserRegister);
+            ReturnMainWindowCommand = new RelayCommand(ReturnMainWindow);
         }
 
         private void AddUser(object parameter)
@@ -162,12 +171,30 @@ namespace MemoryGame.ViewModels
             return SelectedUser != null;
         }
 
-        private void StartGame(object parameter)
+        private async void StartGame(object parameter)
         {
-            StartGameWindow startGameWindow = new StartGameWindow(this.Users, this.SelectedUser);
-            startGameWindow.Show();
-            Application.Current.MainWindow.Close(); // Assuming this is the main window
+            if (parameter is Window currentWindow)
+            {
+                await WindowTransitionService.FadeSwitch(currentWindow, new StartGameWindow(this.Users, this.SelectedUser), 500);
+            }
         }
+
+        private async void UserRegister(object parameter)
+        {
+            if (parameter is Window currentWindow)
+            {
+                await WindowTransitionService.SlideSwitch(currentWindow, new RegisterWindow(),SlideDirection.Left);
+            }
+        }
+
+        private async void ReturnMainWindow(object parameter)
+        {
+            if (parameter is Window currentWindow)
+            {
+                await WindowTransitionService.SlideSwitch(currentWindow, new MainWindow(), SlideDirection.Right);
+            }
+        }
+
 
         private bool CanStartGame(object parameter)
         {
