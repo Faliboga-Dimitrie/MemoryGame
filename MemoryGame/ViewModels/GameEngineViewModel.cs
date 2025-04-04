@@ -284,7 +284,7 @@ namespace MemoryGame.ViewModels
 
         private void AboutDisplay(object parameter)
         {
-            _dialogService.ShowMessage("Faliboga Dimitrie 10LF331", "About", MessageBoxButton.OK, MessageBoxImage.Information);
+            _dialogService.ShowMessageWithLink("Faliboga Dimitrie 10LF331 <a href=\"https://www.unitbv.ro/\">University of Brasov</a>", "Developer Information");
         }
 
         private void StartGame(object parameter)
