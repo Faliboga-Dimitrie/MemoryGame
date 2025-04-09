@@ -110,25 +110,7 @@ namespace MemoryGame.Models
             BackImagePath = backImagePath;
             IsFlipped = false;
             Visibility = Visibility.Visible;
-            UpdateCurrentImage();
-        }
-
-        private void UpdateCurrentImage()
-        {
-            if (IsFlipped)
-            {
-                CurrentImagePath = BackImagePath;
-            }
-            else
-            {
-                CurrentImagePath = FrontImagePath;
-            }
-        }
-
-        public void Flip()
-        {
-            IsFlipped = !IsFlipped;
-            UpdateCurrentImage();
+            CurrentImagePath = FrontImagePath;
         }
     }
 

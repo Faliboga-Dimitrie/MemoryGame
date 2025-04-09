@@ -218,7 +218,7 @@ namespace MemoryGame.ViewModels
                 if (GameEngine.FirstCell == null)
                 {
                     GameEngine.FirstCell = cell;
-                    cell.Flip();
+                    GridLoaderViewMode.FlipCell(cell);
                 }
                 else if (GameEngine.SecondCell == null)
                 {
@@ -227,7 +227,7 @@ namespace MemoryGame.ViewModels
                         return;
                     }
 
-                    cell.Flip();
+                    GridLoaderViewMode.FlipCell(cell);
                     GameEngine.SecondCell = cell;
                     if (GameEngine.FirstCell.BackImagePath == GameEngine.SecondCell.BackImagePath)
                     {
@@ -238,7 +238,7 @@ namespace MemoryGame.ViewModels
                             _dialogService.ShowMessage("Congratulations You Won!","Good boy", MessageBoxButton.YesNo, MessageBoxImage.Question);
                             ClearLastGame();
                             CurrentUser.GamesWon++;
-                            CurrentUser.UpdateJson();
+                            UsersViewModel.UpdateUserJson(CurrentUser.UserFolder, CurrentUser.GamesWon, CurrentUser.TotalGamesPlayed);
                         }
                         else
                         {
@@ -252,8 +252,8 @@ namespace MemoryGame.ViewModels
                     else
                     {
                         await Task.Delay(1000);
-                        GameEngine.FirstCell.Flip();
-                        GameEngine.SecondCell.Flip();
+                        GridLoaderViewMode.FlipCell(GameEngine.FirstCell);
+                        GridLoaderViewMode.FlipCell(GameEngine.SecondCell);
                         GameEngine.FirstCell = null;
                         GameEngine.SecondCell = null;
                     }
@@ -294,7 +294,7 @@ namespace MemoryGame.ViewModels
             GridLoader.GenerateCells();
             StartTimer(parameter);
             CurrentUser.TotalGamesPlayed++;
-            CurrentUser.UpdateJson();
+            UsersViewModel.UpdateUserJson(CurrentUser.UserFolder, CurrentUser.GamesWon, CurrentUser.TotalGamesPlayed);
         }
 
         public void ClearLastGame()

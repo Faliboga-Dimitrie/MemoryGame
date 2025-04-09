@@ -112,23 +112,6 @@ namespace MemoryGame.Models
             }
         }
 
-        public void UpdateJson()
-        {
-            string filePath = Path.Combine(UserFolder, "userdata.json");
-
-            string json = File.ReadAllText(filePath);
-
-            User? user = JsonSerializer.Deserialize<User>(json);
-
-            user.GamesWon = GamesWon;
-            user.TotalGamesPlayed = TotalGamesPlayed;
-
-            string updatedJson = JsonSerializer.Serialize(user, new JsonSerializerOptions { WriteIndented = true });
-
-            File.WriteAllText(filePath, updatedJson);
-        }
-
-
         public User()
         {
             Username = "";

@@ -204,5 +204,18 @@ namespace MemoryGame.ViewModels
                 list[j] = temp;
             }
         }
+
+        public static void FlipCell(GridCell girdCell)
+        {
+            girdCell.IsFlipped = !girdCell.IsFlipped;
+            if (girdCell.IsFlipped)
+            {
+                girdCell.CurrentImagePath = girdCell.BackImagePath;
+            }
+            else
+            {
+                girdCell.CurrentImagePath = girdCell.FrontImagePath;
+            }
+        }
     }
 }
