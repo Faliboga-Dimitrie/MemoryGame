@@ -64,19 +64,16 @@ namespace MemoryGame.Services
                     break;
             }
 
-            // Set initial position of the new window
             to.Left = toStartLeft;
             to.Top = toStartTop;
             to.Show();
 
-            // Animate old window out (optional)
             DoubleAnimation? fromAnim = null;
             if (direction == SlideDirection.Left || direction == SlideDirection.Right)
                 fromAnim = new DoubleAnimation(from.Left, (direction == SlideDirection.Left ? -from.Width : screenWidth), TimeSpan.FromMilliseconds(duration));
             else if (direction == SlideDirection.Up || direction == SlideDirection.Down)
                 fromAnim = new DoubleAnimation(from.Top, (direction == SlideDirection.Down ? screenHeight : -from.Height), TimeSpan.FromMilliseconds(duration));
 
-            // Animate new window in
             var toAnimX = new DoubleAnimation(toStartLeft, toEndLeft, TimeSpan.FromMilliseconds(duration));
             var toAnimY = new DoubleAnimation(toStartTop, toEndTop, TimeSpan.FromMilliseconds(duration));
 

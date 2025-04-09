@@ -20,7 +20,7 @@ namespace MemoryGame.Models
         private int _gamesWon;
         private int _totalGamesPlayed;
 
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+        private static readonly Dictionary<string, BitmapImage> ImageCache = [];
         public string Username
         {
             get => _username;

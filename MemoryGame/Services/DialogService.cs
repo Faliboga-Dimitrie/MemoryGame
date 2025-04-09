@@ -5,22 +5,19 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Diagnostics;
+using Ookii.Dialogs.WinForms;
 
-namespace MemoryGame.Models
+namespace MemoryGame.Services
 {
-    using System.Diagnostics;
-    using System.Windows;
-    using Ookii.Dialogs.WinForms;
-
-    public class DialogService
+    public static class DialogService
     {
-        public void ShowMessage(string message, string title, MessageBoxButton buttons, MessageBoxImage icon)
+        public static void ShowMessage(string message, string title, MessageBoxButton buttons, MessageBoxImage icon)
         {
-            // Fall back to standard MessageBox
             MessageBox.Show(message, title, buttons, icon);
         }
 
-        public void ShowMessageWithLink(string message, string title)
+        public static void ShowMessageWithLink(string message, string title)
         {
             if (TaskDialog.OSSupportsTaskDialogs)
             {
@@ -28,7 +25,7 @@ namespace MemoryGame.Models
                 {
                     WindowTitle = title,
                     MainInstruction = title,
-                    Content = message, // You can include <a href="...">link</a> in this string
+                    Content = message,
                     EnableHyperlinks = true
                 };
 
@@ -46,14 +43,12 @@ namespace MemoryGame.Models
             }
             else
             {
-                // If TaskDialog isn't supported, fallback to plain MessageBox
                 MessageBox.Show(StripHtml(message), title, MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
-        private string StripHtml(string input)
+        private static string StripHtml(string input)
         {
-            // Simple method to remove HTML tags for fallback message
             return System.Text.RegularExpressions.Regex.Replace(input, "<.*?>", string.Empty);
         }
     }

@@ -79,8 +79,10 @@ namespace MemoryGame.Models
 
         public TimeTracker()
         {
-            _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
             _seconds = 0;
             _minutes = 0;
         }

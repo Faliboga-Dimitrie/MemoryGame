@@ -25,12 +25,16 @@ namespace MemoryGame.ViewModels
 
         private GridLoaderViewMode _gridLoader;
         private GameEngine _gameEngine;
-        private DialogService _dialogService;
         private TimeTracker _timeTracker;
         private User _currentUser;
         private static ObservableCollection<User> _users;
 
-        private static List<string> _buttonContents;
+        private static readonly List<string> _buttonContents;
+
+        private static readonly JsonSerializerOptions _jsonOptions = new()
+        {
+            WriteIndented = true,
+        };
 
         private string _selectedCategory;
         public string SelectedCategory
@@ -142,14 +146,13 @@ namespace MemoryGame.ViewModels
 
         static GameEngineViewModel()
         {
-            _buttonContents = new List<string> { "Select Standard", "Select Custom" };
+            _buttonContents = [ "Select Standard", "Select Custom" ];
         }
 
         public GameEngineViewModel()
         {
             _gridLoader = new GridLoaderViewMode();
             _gameEngine = new GameEngine();
-            _dialogService = new DialogService();
             _timeTracker = new TimeTracker();
             _timeTracker.Timer.Tick += Timer_Tick;
 
@@ -203,7 +206,7 @@ namespace MemoryGame.ViewModels
         {
             TimeTracker.Timer.Stop();
             CommandManager.InvalidateRequerySuggested();
-            _dialogService.ShowMessage("Time is up!", "Game Over", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            DialogService.ShowMessage("Time is up!", "Game Over", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             GameSpecifier = Visibility.Visible;
             GameStarted = Visibility.Hidden;
             TimeTracker.Minutes = 0;
@@ -235,7 +238,7 @@ namespace MemoryGame.ViewModels
                         GameEngine.PairsFound++;
                         if(GameEngine.PairsFound == GridLoader.Rows * GridLoader.Columns / 2)
                         {
-                            _dialogService.ShowMessage("Congratulations You Won!","Good boy", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                            DialogService.ShowMessage("Congratulations You Won!","Good boy", MessageBoxButton.YesNo, MessageBoxImage.Question);
                             ClearLastGame();
                             CurrentUser.GamesWon++;
                             UsersViewModel.UpdateUserJson(CurrentUser.UserFolder, CurrentUser.GamesWon, CurrentUser.TotalGamesPlayed);
@@ -284,7 +287,7 @@ namespace MemoryGame.ViewModels
 
         private void AboutDisplay(object parameter)
         {
-            _dialogService.ShowMessageWithLink("Faliboga Dimitrie 10LF331 <a href=\"https://www.unitbv.ro/\">University of Brasov</a>", "Developer Information");
+            DialogService.ShowMessageWithLink("Faliboga Dimitrie 10LF331 <a href=\"https://www.unitbv.ro/\">University of Brasov</a>", "Developer Information");
         }
 
         private void StartGame(object parameter)
@@ -345,7 +348,7 @@ namespace MemoryGame.ViewModels
         {
             if (parameter is Window currentWindow)
             {
-                StatisticsWindow statisticsWindow = new StatisticsWindow(Users, CurrentUser);
+                StatisticsWindow statisticsWindow = new(Users, CurrentUser);
                 await WindowTransitionService.SlideSwitch(currentWindow, statisticsWindow, SlideDirection.Right, 500);
             }
         }
@@ -365,10 +368,10 @@ namespace MemoryGame.ViewModels
 
             GridLoader.SaveToJson(directoryPath);
 
-            GameEngineData gameEngineData = new GameEngineData(GameEngine, SelectedCategory, GridLoader.Rows,
+            GameEngineData gameEngineData = new (GameEngine, SelectedCategory, GridLoader.Rows,
                 GridLoader.Columns, TimeTracker.Minutes, TimeTracker.Seconds, TimeTracker.RemainingTime.Minutes, TimeTracker.RemainingTime.Seconds);
 
-            string json = JsonSerializer.Serialize(gameEngineData, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(gameEngineData, _jsonOptions);
 
             string filePath = System.IO.Path.Combine(directoryPath, "GameEngineData.json");
 
@@ -411,7 +414,7 @@ namespace MemoryGame.ViewModels
             }
             else
             {
-                _dialogService.ShowMessage("No saved game found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogService.ShowMessage("No saved game found.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -14,10 +14,10 @@ namespace MemoryGame.ViewModels
         public static GridLoaderViewMode Instance => _instance ??= new GridLoaderViewMode();
 
 
-        private static List<string> _category;
-        private static List<int> _ints;
+        private static readonly List<string> _category;
+        private static readonly List<int> _ints;
         private static int _categoryIndex;
-        private static int _numberOfImages;
+        private static readonly int _numberOfImages;
         private int _rows = 4;
         private int _columns = 4;
 
@@ -65,7 +65,7 @@ namespace MemoryGame.ViewModels
             get => _numberOfImages;
         }
 
-        private ObservableCollection<GridCell> _cells = new();
+        private ObservableCollection<GridCell> _cells = [];
         public ObservableCollection<GridCell> Cells
         {
             get => _cells;
@@ -110,13 +110,13 @@ namespace MemoryGame.ViewModels
 
         static GridLoaderViewMode()
         {
-            _category = new List<string>
-            {
+            _category =
+            [
                 "Data/Images/GameImages/Animals/Animal",
                 "Data/Images/GameImages/Landmarks/landmark",
                 "Data/Images/GameImages/Vehicles/Vehicle"
-            };
-            _ints = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8 };
+            ];
+            _ints = [ 1, 2, 3, 4, 5, 6, 7, 8 ];
             _categoryIndex = 0;
             _numberOfImages = 8;
         }
@@ -136,7 +136,7 @@ namespace MemoryGame.ViewModels
             int totalSlots = Rows * Columns;
 
             int numImages = _ints.Count;
-            List<int> imagePool = new List<int>();
+            List<int> imagePool = [];
 
             while(true)
             {
@@ -150,12 +150,10 @@ namespace MemoryGame.ViewModels
                 }
             }
 
-            // Step 1: Calculate base pair count per image
             int basePairCount = totalSlots / numImages;
             if (basePairCount % 2 != 0)
-                basePairCount -= 1; // Ensure it's even
+                basePairCount -= 1; 
 
-            // Step 2: Add base pairs to image pool
             foreach (var image in _ints)
             {
                 for (int i = 0; i < basePairCount; i++)
@@ -164,21 +162,18 @@ namespace MemoryGame.ViewModels
                 }
             }
 
-            // Step 3: Handle remaining slots
             int remainingSlots = totalSlots - imagePool.Count;
             int index = 0;
             while (remainingSlots > 0)
             {
                 imagePool.Add(_ints[index]);
-                imagePool.Add(_ints[index]); // Add a pair
+                imagePool.Add(_ints[index]); 
                 remainingSlots -= 2;
-                index = (index + 1) % numImages; // Circular distribution
+                index = (index + 1) % numImages;
             }
 
-            // Step 4: Shuffle the image pool
             Shuffle(imagePool);
 
-            // Step 5: Map shuffled list to grid
             int[,] grid = new int[Rows, Columns];
             int poolIndex = 0;
 
@@ -195,13 +190,11 @@ namespace MemoryGame.ViewModels
 
         private static void Shuffle<T>(List<T> list)
         {
-            Random random = new Random();
+            Random random = new();
             for (int i = list.Count - 1; i > 0; i--)
             {
                 int j = random.Next(i + 1);
-                T temp = list[i];
-                list[i] = list[j];
-                list[j] = temp;
+                (list[j], list[i]) = (list[i], list[j]);
             }
         }
 

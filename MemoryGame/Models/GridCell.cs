@@ -18,9 +18,9 @@ namespace MemoryGame.Models
         public int RowIndex { get; }
         public int ColumnIndex { get; }
 
-        private string _frontImagePath = "Data/Images/GameImages/Base.jpg";
+        private static readonly string _frontImagePath = "Data/Images/GameImages/Base.jpg";
 
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+        private static readonly Dictionary<string, BitmapImage> ImageCache = [];
         public string FrontImagePath
         {
             get => _frontImagePath;

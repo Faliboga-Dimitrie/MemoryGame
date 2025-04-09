@@ -29,10 +29,13 @@ namespace MemoryGame.ViewModels
         private ObservableCollection<User> _users;
         private User _selectedUser;
         private User _newUser;
-        private readonly DialogService _dialogService;
         private string _profilePicturePath = "Data/Images/UserAvatarImages/Avatar1.jpg";
         private static int _id;
-        private static readonly Dictionary<string, BitmapImage> ImageCache = new();
+        private static readonly Dictionary<string, BitmapImage> ImageCache = [];
+        private static readonly JsonSerializerOptions _jsonOptions = new()
+        {
+            WriteIndented = true
+        };
 
         public ObservableCollection<User> Users
         {
@@ -122,8 +125,7 @@ namespace MemoryGame.ViewModels
 
         public UsersViewModel()
         {
-            _dialogService = new DialogService();
-            _users = new ObservableCollection<User>();
+            _users = [];
             LoadUsersJSON();
             _selectedUser = null;
             _newUser = new User();
@@ -140,13 +142,13 @@ namespace MemoryGame.ViewModels
         {
             if (NewUser.Username == "" || NewUser.Password == "")
             {
-                _dialogService.ShowMessage("Please fill in all the fields!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogService.ShowMessage("Please fill in all the fields!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
             if (Users.Any(u => u.Username == NewUser.Username))
             {
-                _dialogService.ShowMessage("Username already exists!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                DialogService.ShowMessage("Username already exists!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -154,7 +156,7 @@ namespace MemoryGame.ViewModels
             Users.Add(NewUser);
             NewUser = new User();
 
-            _dialogService.ShowMessage("User added successfully!", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+            DialogService.ShowMessage("User added successfully!", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             SaveUsersJSON();
         }
 
@@ -162,7 +164,7 @@ namespace MemoryGame.ViewModels
         {
             DeleteUserFromJSON(SelectedUser.Username);
             Users.Remove(SelectedUser);
-            _dialogService.ShowMessage("User deleted successfully!", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+            DialogService.ShowMessage("User deleted successfully!", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
             SelectedUser = null;
         }
 
@@ -236,14 +238,13 @@ namespace MemoryGame.ViewModels
 
                     Directory.CreateDirectory(userFolder);
 
-                    var options = new JsonSerializerOptions { WriteIndented = true };
-                    string json = JsonSerializer.Serialize(user, options);
+                    string json = JsonSerializer.Serialize(user, _jsonOptions);
                     File.WriteAllText(filePath, json);
                 }
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage($"Save failed: {ex.Message}",
+                DialogService.ShowMessage($"Save failed: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 
             }
@@ -277,7 +278,7 @@ namespace MemoryGame.ViewModels
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage($"Load failed: {ex.Message}",
+                DialogService.ShowMessage($"Load failed: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -306,7 +307,7 @@ namespace MemoryGame.ViewModels
             }
             catch (Exception ex)
             {
-                _dialogService.ShowMessage($"Delete failed: {ex.Message}",
+                DialogService.ShowMessage($"Delete failed: {ex.Message}",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
@@ -322,7 +323,7 @@ namespace MemoryGame.ViewModels
             user.GamesWon = GamesWon;
             user.TotalGamesPlayed = TotalGamesPlayed;
 
-            string updatedJson = JsonSerializer.Serialize(user, new JsonSerializerOptions { WriteIndented = true });
+            string updatedJson = JsonSerializer.Serialize(user, _jsonOptions);
 
             File.WriteAllText(filePath, updatedJson);
         }

@@ -29,7 +29,7 @@ namespace MemoryGame.Views
 
         private void RegisterUser_Click(object sender, RoutedEventArgs e)
         {
-            RegisterWindow registerWindow = new RegisterWindow();
+            RegisterWindow registerWindow = new();
             registerWindow.Show();
             this.Close();
         }

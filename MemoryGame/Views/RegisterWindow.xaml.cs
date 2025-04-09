@@ -27,7 +27,7 @@ namespace MemoryGame.Views
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mainWindow = new MainWindow();
+            MainWindow mainWindow = new();
             mainWindow.Show();
             this.Close();
         }
